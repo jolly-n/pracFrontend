@@ -47,13 +47,19 @@
             border-radius: 5px;
 
             padding: 50px;
-            margin-bottom: 30px;
+            margin-bottom: 50px;
         }
     </style>
 
     <script>
+        let count = 1;
         function hey() {
-            alert('안녕~');
+            if (count % 2 ==0) {
+                alert('짝수입니다')
+            } else {
+                alert('홀수입니다')
+            }
+            count += 1;
         }
     </script>
 </head>
