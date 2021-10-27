@@ -22,11 +22,48 @@
             padding: 10px;
             border: 1px solid;
         }
+
+        .bike-less {
+            color: red;
+        }
     </style>
 
     <script>
         function q1() {
-            // 여기에 코드를 입력하세요
+            // 업데이트 버튼을 누를때마다 지웠다 새로 씌워진다.
+            $('#names-q1').empty()
+            $.ajax({
+                type: "GET",  // GET 방식으로 요청한다.
+                url: "http://spartacodingclub.shop/sparta_api/seoulbike",  // 요청할 URL (API 주소가 될 수 있음)
+                data: {},  // 요청하면서 함께 줄 데이터 (GET 요청시엔 비워두세요)
+                success: function (response) {  // 서버에서 준 결과를 response라는 변수에 담음
+                    let rows = response['getStationList']['row']
+                    for (let i = 0; i < rows.length; i++) {
+                        let name = rows[i]['stationName'];
+                        let rack = rows[i]['rackTotCnt'];
+                        let bike = rows[i]['parkingBikeTotCnt'];
+
+                        let temp_html = ``
+
+                        // 현재 거치된 따릉이의 수가 5개 미만일 경우 빨간글씨로 표시
+                        if (bike < 5) {
+                            temp_html = `<tr class="bike-less">
+                                            <td>${name}</td>
+                                            <td>${rack}</td>
+                                            <td>${bike}</td>
+                                         </tr>`
+                            $('#names-q1').append(temp_html)
+                        } else {
+                            temp_html = `<tr>
+                                            <td>${name}</td>
+                                            <td>${rack}</td>
+                                            <td>${bike}</td>
+                                         </tr>`
+                            $('#names-q1').append(temp_html)
+                        }
+                    }
+                }
+            })
         }
     </script>
 
@@ -41,6 +78,7 @@
         <h2>2. 서울시 OpenAPI(실시간 따릉기 현황)를 이용하기</h2>
         <p>모든 위치의 따릉이 현황을 보여주세요</p>
         <p>업데이트 버튼을 누를 때마다 지웠다 새로 씌여져야 합니다.</p>
+        <p>현재 거치된 따릉이의 수가 5개 미만일 경우 빨간글씨로 표시하세요.</p>
         <button onclick="q1()">업데이트</button>
         <table>
             <thead>
@@ -50,23 +88,7 @@
                     <td>현재 거치된 따릉이 수</td>
                 </tr>
             </thead>
-            <tbody id="names-q1">
-                <tr>
-                    <td>102. 망원역 1번출구 앞</td>
-                    <td>22</td>
-                    <td>0</td>
-                </tr>
-                <tr>
-                    <td>103. 망원역 2번출구 앞</td>
-                    <td>16</td>
-                    <td>0</td>
-                </tr>
-                <tr>
-                    <td>104. 합정역 1번출구 앞</td>
-                    <td>16</td>
-                    <td>0</td>
-                </tr>
-            </tbody>
+            <tbody id="names-q1"></tbody>
         </table>
     </div>
 </body>
