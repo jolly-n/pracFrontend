@@ -12,11 +12,37 @@
         div.question-box {
             margin: 10px 0 20px 0;
         }
+
+        .mise-bad {
+            color: red;
+        }
     </style>
 
     <script>
         function q1() {
-            // 여기에 코드를 입력하세요
+            // 업데이트 버튼 누를 때마다 지웠다 새로 씌워준다.
+            $('#names-q1').empty()
+            $.ajax({
+                type: "GET",  // GET 방식으로 요청한다.
+                url: "http://openapi.seoul.go.kr:8088/6d4d776b466c656533356a4b4b5872/json/RealtimeCityAir/1/99",  // 요청할 URL (API 주소가 될 수 있음)
+                data: {},  // 요청하면서 함께 줄 데이터 (GET 요청시엔 비워두세요)
+                success: function (response) {  // 서버에서 준 결과를 response라는 변수에 담음
+                    let rows = response['RealtimeCityAir']['row']
+                    for (let i = 0; i < rows.length; i++) {
+                        let gu_name = rows[i]['MSRSTE_NM']
+                        let gu_mise = rows[i]['IDEX_MVL']
+
+                        // gu_mise 값이 70이상인 것들만 빨간글씨로 표시한다.
+                        if (gu_mise > 70) {
+                            let temp_html = `<li class="mise-bad">${gu_name} : ${gu_mise}</li>`
+                             $('#names-q1').append(temp_html)
+                        } else {
+                            let temp_html = `<li>${gu_name} : ${gu_mise}</li>`
+                             $('#names-q1').append(temp_html)
+                        }
+                    }
+                }
+            })
         }
     </script>
 
@@ -25,7 +51,7 @@
 <body>
     <h1>jQuery+Ajax의 조합을 연습하자!</h1>
 
-    <hr />
+    <hr/>
 
     <div class="question-box">
         <h2>1. 서울시 OpenAPI(실시간 미세먼지 상태)를 이용하기</h2>
