@@ -45,16 +45,41 @@
         }
 
         .desc {
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .btn {
             margin: auto;
             display: block;
         }
+
+        .rate {
+            color: #73b4d9;
+            margin-bottom: 30px;
+        }
     </style>
 
     <script>
+        // 로딩되자마자 고양이 사진이 뜨도록 한다.
+        $(document).ready(function () {
+            get_rate();
+        })
+
+        function get_rate() {
+            $.ajax({
+                type: "GET",
+                url: "http://spartacodingclub.shop/sparta_api/rate",
+                data: {},
+                success: function (response) {
+                    let now_rate = response['rate']
+
+                    let temp_html =`<h5>달러-원 환율 : ${now_rate}</h5>`
+
+                    $('#rate').append(temp_html)
+                }
+            })
+        }
+
         function order() {
             alert('주문이 완료되었어요 😊')
         }
@@ -69,6 +94,8 @@
             <h1>💗고양이 턱받이💗 <span style="font-size:20px"> 가격 : 12000원 / 1개 </span></h1>
             <h5>흡수성이 좋고 열전도성이 높아 <p>여름에는 시원하고 겨울에는 따뜻한 귀여운 고양이 턱받이!</p></h5>
         </div>
+
+        <div class="rate" id="rate"></div>
 
         <div class="order">
             <div class="input-group mb-3">
