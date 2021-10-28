@@ -33,7 +33,7 @@
             margin: auto;
         }
 
-        .thumbnail {
+        .item-img {
             background-image: url(http://image.bom.co.kr/product/detail/BOD/2102181624046456/_600.jpg);
             background-size: auto;
             background-position: center;
@@ -44,7 +44,7 @@
             margin-bottom: 30px;
         }
 
-        .desc {
+        .item-desc {
             margin-bottom: 30px;
         }
 
@@ -53,7 +53,7 @@
             display: block;
         }
 
-        .rate {
+        .item-rate {
             color: #73b4d9;
             margin-bottom: 30px;
         }
@@ -72,10 +72,7 @@
                 data: {},
                 success: function (response) {
                     let now_rate = response['rate']
-
-                    let temp_html =`<h5>달러-원 환율 : ${now_rate}</h5>`
-
-                    $('#rate').append(temp_html)
+                    $('#now-rate').text(now_rate)
                 }
             })
         }
@@ -88,16 +85,18 @@
 
 <body>
     <div class="wrap">
-        <div class="thumbnail"></div>
+        <div class="item-img"></div>
 
-        <div class="desc">
+        <div class="item-desc">
             <h1>💗고양이 턱받이💗 <span style="font-size:20px"> 가격 : 12000원 / 1개 </span></h1>
             <h5>흡수성이 좋고 열전도성이 높아 <p>여름에는 시원하고 겨울에는 따뜻한 귀여운 고양이 턱받이!</p></h5>
         </div>
 
-        <div class="rate" id="rate"></div>
+        <div class="item-rate">
+            <h5>달러-원 환율 : <span id="now-rate">1219.5</span></h5>
+        </div>
 
-        <div class="order">
+        <div class="item-order">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-name">주문자 이름</span>
