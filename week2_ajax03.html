@@ -18,9 +18,25 @@
     </style>
 
     <script>
+      // 로딩되자마자 고양이 사진이 뜨도록 한다.
+      $(document).ready(function () {
+        q1();
+      });
+
       function q1() {
-        // 여기에 코드를 입력하세요
+        $.ajax({
+          type: "GET",
+          url: "https://api.thecatapi.com/v1/images/search",
+          data: {},
+          success: function (response) {
+            let imgurl = response[0]['url']
+
+            // 이미지태그의 src를 바꿔준다.
+            $("#img-cat").attr("src", imgurl)
+          }
+        })
       }
+
     </script>
 
   </head>
